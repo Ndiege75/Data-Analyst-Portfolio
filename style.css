@@ -53,4 +53,24 @@
 .project-link:hover {
     background: #087cf0;
 }
+.experience-card h3 {
+    color: #0b1f3a;
+    margin-bottom: 8px;
+}
+
+.experience-card h4 {
+    color: #2563eb;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.experience-card ul {
+    padding-left: 20px;
+    color: #475569;
+    line-height: 1.7;
+}
+
+.experience-card li {
+    margin-bottom: 8px;
+}
 
