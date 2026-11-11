@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Access | Richard Otieno</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            width: 100%;
+            max-width: 430px;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .auth-card h1 {
+            color: #0b1f3a;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .auth-card label {
+            display: block;
+            margin: 15px 0 7px;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .auth-card input:focus {
+            outline: 2px solid #2563eb;
+            border-color: #2563eb;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #0b1f3a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 22px;
+            color: #64748b;
+        }
+
+        .switch-text button {
+            border: none;
+            background: none;
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="auth-card">
+
+    <h1 id="formTitle">Create Account</h1>
+
+    <p class="subtitle" id="formSubtitle">
+        Register to access my data analytics projects.
+    </p>
+
+    <form id="authForm">
+
+        <div id="nameField">
+            <label for="fullName">Full Name</label>
+            <input
+                type="text"
+                id="fullName"
+                autocomplete="name"
+                placeholder="Enter your full name"
+                required>
+        </div>
+
+        <label for="email">Email Address</label>
+        <input
+            type="email"
+            id="email"
+            autocomplete="email"
+            placeholder="Enter your email"
+            required>
+
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            autocomplete="new-password"
+            placeholder="Enter your password"
+            minlength="8"
+            required>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+            Create Account
+        </button>
+
+    </form>
+
+    <p class="switch-text">
+        <span id="switchLabel">Already have an account?</span>
+        <button type="button" id="switchMode">Login</button>
+    </p>
+
+    <p id="message" role="status" aria-live="polite"></p>
+
+    <a class="back-link"
+       href="index.html">
+       ← Back to Portfolio
+    </a>
+
+</div>
+
+<script type="module">
+    import { createClient }
+    from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    // Replace these with your actual Supabase credentials.
+    const SUPABASE_URL = "https://ydjydxebxwlgaeduewqj.supabase.co/rest/v1/";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_W3zsnforP_jjcrte-ByGYQ_GfrJpMkR";
+
+    const supabase = createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const ANALYSIS_URL =
+        "https://ndiege75.github.io/social-media-analysis/";
+
+    const CONFIRMATION_URL =
+        "https://ndiege75.github.io/Data-Analyst-Portfolio/auth.html";
+
+    let isSignup = true;
+
+    const form = document.getElementById("authForm");
+    const nameField = document.getElementById("nameField");
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const message = document.getElementById("message");
+
+    const formTitle = document.getElementById("formTitle");
+    const formSubtitle = document.getElementById("formSubtitle");
+    const submitBtn = document.getElementById("submitBtn");
+    const switchLabel = document.getElementById("switchLabel");
+    const switchMode = document.getElementById("switchMode");
+
+    function showMessage(text, isError = false) {
+        message.textContent = text;
+        message.style.color = isError ? "#dc2626" : "#15803d";
+    }
+
+    switchMode.addEventListener("click", () => {
+        isSignup = !isSignup;
+
+        formTitle.textContent =
+            isSignup ? "Create Account" : "Welcome Back";
+
+        formSubtitle.textContent =
+            isSignup
+            ? "Register to access my data analytics projects."
+            : "Log in to access your projects.";
+
+        submitBtn.textContent =
+            isSignup ? "Create Account" : "Login";
+
+        switchLabel.textContent =
+            isSignup
+            ? "Already have an account?"
+            : "Don't have an account?";
+
+        switchMode.textContent =
+            isSignup ? "Login" : "Sign Up";
+
+        nameField.hidden = !isSignup;
+        fullName.required = isSignup;
+
+        password.autocomplete =
+            isSignup ? "new-password" : "current-password";
+
+        showMessage("");
+    });
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Please wait...";
+        showMessage("");
+
+        try {
+            if (isSignup) {
+
+                const { data, error } = await supabase.auth.signUp({
+                    email: email.value.trim(),
+                    password: password.value,
+                    options: {
+                        data: {
+                            full_name: fullName.value.trim()
+                        },
+                        emailRedirectTo: CONFIRMATION_URL
+                    }
+                });
+
+                if (error) throw error;
+
+                if (data.session) {
+                    window.location.replace(ANALYSIS_URL);
+                    return;
+                }
+
+                showMessage(
+                    "Account created! Please check your email and confirm your account before logging in."
+                );
+
+                form.reset();
+
+            } else {
+
+                const { error } =
+                    await supabase.auth.signInWithPassword({
+                        email: email.value.trim(),
+                        password: password.value
+                    });
+
+                if (error) throw error;
+
+                window.location.replace(ANALYSIS_URL);
+                return;
+            }
+
+        } catch (error) {
+            showMessage(error.message, true);
+
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent =
+                isSignup ? "Create Account" : "Login";
+        }
+    });
+</script>
+
+</body>
+</html>
