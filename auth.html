@@ -234,6 +234,17 @@
     const fullName = document.getElementById("fullName");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+
+togglePassword.addEventListener("click", () => {
+    const isHidden = password.type === "password";
+
+    password.type = isHidden ? "text" : "password";
+
+    togglePassword.innerHTML = isHidden
+        ? '<i class="fa-solid fa-eye-slash"></i>'
+        : '<i class="fa-solid fa-eye"></i>';
+});
     const message = document.getElementById("message");
 
     const formTitle = document.getElementById("formTitle");
