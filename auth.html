@@ -246,72 +246,58 @@
         showMessage("");
     });
 
-    form.addEventListener("submit", async (event) => {
-        console.log("Login form submitted!");
-alert("Login button is working!");
-        event.preventDefault();
+    
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Please wait...";
-        showMessage("");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Please wait...";
+    showMessage("");
 
-        try {
-            if (isSignup) {
-
-                const { data, error } = await supabase.auth.signUp({
-                    email: email.value.trim(),
-                    password: password.value,
-                    options: {
-                        data: {
-                            full_name: fullName.value.trim()
-                        },
-                        emailRedirectTo: CONFIRMATION_URL
-                    }
-                });
-
-                if (error) throw error;
-
-                if (data.session) {
-                    window.location.replace(ANALYSIS_URL);
-                    return;
+    try {
+        if (isSignup) {
+            const { data, error } = await supabase.auth.signUp({
+                email: email.value.trim(),
+                password: password.value,
+                options: {
+                    data: {
+                        full_name: fullName.value.trim()
+                    },
+                    emailRedirectTo: CONFIRMATION_URL
                 }
+            });
 
-                showMessage(
-                    "Account created! Please check your email and confirm your account before logging in."
-                );
+            if (error) throw error;
 
-                form.reset();
+            if (data.session) {
+                window.location.replace(ANALYSIS_URL);
+                return;
+            }
 
-            } else {
+            showMessage("Account created! Check your email.");
+            form.reset();
 
-                const { data, error } =
-    await supabase.auth.signInWithPassword({
-        email: email.value.trim(),
-        password: password.value
-    });
+        } else {
+            const { error } = await supabase.auth.signInWithPassword({
+                email: email.value.trim(),
+                password: password.value
+            });
 
-if (error) throw error;
+            if (error) throw error;
 
-const loggedInEmail = data.user.email.toLowerCase();
-
-if (loggedInEmail === ADMIN_EMAIL.toLowerCase()) {
-    showMessage("Welcome, Administrator!");
-} else {
-    showMessage("Login successful!");
-}
-
-window.location.replace(ANALYSIS_URL);
-return;
-
-        } catch (error) {
-            showMessage(error.message, true);
-
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent =
-                isSignup ? "Create Account" : "Login";
+            window.location.replace(ANALYSIS_URL);
+            return;
         }
-    });
+
+    } catch (error) {
+        console.error(error);
+        showMessage(error.message, true);
+
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isSignup ? "Create Account" : "Login";
+    }
+});
 </script>
 
 </body>
