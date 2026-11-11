@@ -138,13 +138,21 @@
                 required>
         </div>
 
-        <label for="email">Email Address</label>
-        <input
-            type="email"
-            id="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required>
+        <label for="password">Password</label>
+
+<div class="password-container">
+    <input
+        type="password"
+        id="password"
+        autocomplete="new-password"
+        placeholder="Enter your password"
+        minlength="8"
+        required>
+
+    <button type="button" id="togglePassword" class="toggle-password">
+        <i class="fa-solid fa-eye"></i>
+    </button>
+</div>
 
         <label for="password">Password</label>
         <input
