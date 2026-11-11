@@ -189,6 +189,8 @@
 
     const ANALYSIS_URL =
         "https://ndiege75.github.io/social-media-analysis/";
+    
+    const ADMIN_EMAIL = "ndiegerichard75@gmail.com";
 
     const CONFIRMATION_URL =
         "https://ndiege75.github.io/Data-Analyst-Portfolio/auth.html";
@@ -280,17 +282,24 @@
 
             } else {
 
-                const { error } =
-                    await supabase.auth.signInWithPassword({
-                        email: email.value.trim(),
-                        password: password.value
-                    });
+                const { data, error } =
+    await supabase.auth.signInWithPassword({
+        email: email.value.trim(),
+        password: password.value
+    });
 
-                if (error) throw error;
+if (error) throw error;
 
-                window.location.replace(ANALYSIS_URL);
-                return;
-            }
+const loggedInEmail = data.user.email.toLowerCase();
+
+if (loggedInEmail === ADMIN_EMAIL.toLowerCase()) {
+    showMessage("Welcome, Administrator!");
+} else {
+    showMessage("Login successful!");
+}
+
+window.location.replace(ANALYSIS_URL);
+return;
 
         } catch (error) {
             showMessage(error.message, true);
