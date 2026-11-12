@@ -161,6 +161,13 @@
                 placeholder="Enter your full name"
                 required>
         </div>
+        <label for="email">Email Address</label>
+<input
+    type="email"
+    id="email"
+    autocomplete="email"
+    placeholder="Enter your email"
+    required>
 
         <label for="password">Password</label>
 
@@ -173,8 +180,26 @@
         minlength="8"
         required>
 
-    <button type="button" id="togglePassword" class="toggle-password">
-        <i class="fa-solid fa-eye"></i>
+    <button
+        type="button"
+        id="togglePassword"
+        class="toggle-password"
+        aria-label="Show password">
+
+        <svg id="eyeIcon"
+             xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+
     </button>
 </div>
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -227,13 +252,41 @@
     const togglePassword = document.getElementById("togglePassword");
 
 togglePassword.addEventListener("click", () => {
+
     const isHidden = password.type === "password";
 
     password.type = isHidden ? "text" : "password";
 
     togglePassword.innerHTML = isHidden
-        ? '<i class="fa-solid fa-eye-slash"></i>'
-        : '<i class="fa-solid fa-eye"></i>';
+        ? `<svg xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+             <path d="M3 3l18 18"/>
+             <path d="M10.6 10.6a2 2 0 002.8 2.8"/>
+             <path d="M9.9 5.2A10.8 10.8 0 0112 5c6.4 0 10 7 10 7a15 15 0 01-3 3.8"/>
+             <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7c1 0 2-.2 2.9-.5"/>
+           </svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg"
+             width="22" height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+             <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/>
+             <circle cx="12" cy="12" r="3"/>
+           </svg>`;
+
+    togglePassword.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+    );
 });
     const message = document.getElementById("message");
 
