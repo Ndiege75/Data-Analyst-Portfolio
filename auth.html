@@ -234,8 +234,16 @@
         SUPABASE_PUBLISHABLE_KEY
     );
 
-    const ANALYSIS_URL =
-        "https://ndiege75.github.io/social-media-analysis/";
+    const PROJECT_URLS = {
+    social: "https://ndiege75.github.io/social-media-analysis/",
+    student: "https://ndiege75.github.io/student-research-site/"
+};
+
+const requestedProject =
+    new URLSearchParams(window.location.search).get("next");
+
+const ANALYSIS_URL =
+    PROJECT_URLS[requestedProject] || PROJECT_URLS.social;
     
     const ADMIN_EMAIL = "ndiegerichard75@gmail.com";
 
