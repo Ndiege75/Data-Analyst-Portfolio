@@ -73,3 +73,17 @@
 .experience-card li {
     margin-bottom: 8px;
 }
+.project-button {
+    display: inline-block;
+    background: #071b3a;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.project-button:hover {
+    background: #004466;
+    color: white;
+}
